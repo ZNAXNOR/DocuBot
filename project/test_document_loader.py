@@ -13,7 +13,7 @@ if __name__ == "__main__":
 
     qa_system = QASystem()
 
-    question = "Explain topic"
+    question = "Explain topic in 1 long sentence"
     print(f"Question: {question}")
 
     # Dynamically build context from chunks

@@ -16,9 +16,9 @@ class QASystem:
         Initializes the Q&A system with Hugging Face API.
         """
         self.api_url = "https://api-inference.huggingface.co/models/deepset/roberta-large-squad2"
-        self.api_token = os.getenv("HF_API_TOKEN")
+        self.api_token = HF_API_TOKEN
         if not self.api_token:
-            raise ValueError("Hugging Face API token not found. Please set it in the .env file.")
+            raise ValueError("Hugging Face API token not found.")
         self.headers = {"Authorization": f"Bearer {self.api_token}"}
 
     def answer_question(self, question: str, context: str) -> str:
@@ -33,24 +33,18 @@ class QASystem:
             str: The answer to the question.
         """
         payload = {
-            "inputs": {
-                "question": question,
-                "context": context,
-            },
-            "parameters": {
-                "max_answer_len": 1000,
-                "min_score": 0.7,  # Allow lower-confidence answers
-            },
+            "inputs": {"question": question, "context": context},
+            "parameters": {"max_answer_len": 1000, "min_score": 0.7},  # Adjust parameters as needed
         }
 
         try:
+            # Debugging: Log the payload and response
+            print(f"Request Payload: {payload}")
             response = requests.post(self.api_url, headers=self.headers, json=payload)
-            # print("Request Payload:", payload)  # Debugging: Log the payload
-            # print("API Response:", response.text)  # Debugging: Log the raw API response
+            print(f"API Response: {response.text}")  # Debugging: Log the raw API response
             response.raise_for_status()  # Raise exception for HTTP errors
             data = response.json()
             return data.get("answer", "No answer found")
         except requests.exceptions.RequestException as e:
             print(f"Error during API request: {e}")
             return "Error processing the question"
-
