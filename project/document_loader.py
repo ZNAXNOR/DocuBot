@@ -20,8 +20,8 @@ def load_and_split_document(file_path: str):
         # Split the document into smaller chunks for easier processing
         text_splitter = CharacterTextSplitter(
             separator="\n",
-            chunk_size=1000,
-            chunk_overlap=100,
+            chunk_size=500,  # Adjust chunk size to a smaller number for more chunks
+            chunk_overlap=50,  # Allow some overlap between chunks for better context
         )
         document_chunks = text_splitter.split_documents(document)
 

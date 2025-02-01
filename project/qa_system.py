@@ -33,8 +33,14 @@ class QASystem:
             str: The answer to the question.
         """
         payload = {
-            "inputs": {"question": question, "context": context},
-            "parameters": {"max_answer_len": 1000, "min_score": 0.7},  # Adjust parameters as needed
+            "inputs": {
+                "question": question,
+                "context": context
+            },
+            "parameters": {
+                "max_answer_len": 1000,
+                "min_score": 0.7
+            },  # Adjust parameters as needed
         }
 
         try:
